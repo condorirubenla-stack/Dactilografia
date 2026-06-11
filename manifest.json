@@ -1,0 +1,22 @@
+{
+  "name": "MecaWeb - Curso de Mecanografía",
+  "short_name": "MecaWeb",
+  "description": "Aprende mecanografía paso a paso con lecciones, juegos y exámenes. Diseñado para el CEA Herman Ortiz Camargo.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#d89b00",
+  "theme_color": "#a87b00",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "logo1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo1.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
