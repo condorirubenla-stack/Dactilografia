@@ -695,7 +695,16 @@ document.addEventListener('DOMContentLoaded', () => {
             currentIndex++;
             if (currentIndex < characters.length) {
                 characters[currentIndex].classList.add('current');
-                characters[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Scroll manual del contenedor para evitar que la pantalla entera salte
+                const container = characters[currentIndex].parentElement.parentElement; // typing-container
+                const charTop = characters[currentIndex].offsetTop;
+                const charHeight = characters[currentIndex].offsetHeight;
+                const containerHeight = container.clientHeight;
+                
+                let targetScroll = charTop - (containerHeight / 2) + (charHeight / 2);
+                if (targetScroll < 0) targetScroll = 0;
+                
+                container.scrollTo({ top: targetScroll, behavior: 'smooth' });
                 updateKeyboardHighlight();
             } else {
                 finishLesson();
