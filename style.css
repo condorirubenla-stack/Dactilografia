@@ -287,7 +287,9 @@ body {
     padding: 20px;
     font-size: 1.6rem;
     line-height: 1.5;
+    white-space: pre;
     overflow-y: auto;
+    overflow-x: auto;
     position: relative;
     cursor: text;
 }
