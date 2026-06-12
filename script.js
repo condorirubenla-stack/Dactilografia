@@ -629,6 +629,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Backspace' && currentIndex > 0 && !isFinished) {
             characters[currentIndex].classList.remove('current');
             currentIndex--;
+            
+            // AUTO-SALTO DE LÍNEA HACIA ATRÁS: Si retrocedemos a un salto de línea, lo saltamos también
+            while (currentIndex > 0 && characters[currentIndex].innerText === '↵\n') {
+                characters[currentIndex].classList.remove('correct', 'error');
+                currentIndex--;
+            }
+
             const prevChar = characters[currentIndex];
             prevChar.classList.remove('correct', 'error');
             prevChar.classList.add('current');
@@ -693,6 +700,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             currentIndex++;
+            
+            // AUTO-SALTO DE LÍNEA: Si el siguiente carácter es un salto de línea, lo saltamos automáticamente
+            while (currentIndex < characters.length && characters[currentIndex].innerText === '↵\n') {
+                characters[currentIndex].classList.add('correct'); // Lo marcamos como correcto
+                currentIndex++;
+            }
+
             if (currentIndex < characters.length) {
                 characters[currentIndex].classList.add('current');
                 // Centrado vertical manual del contenedor (para que no salte el Y)
