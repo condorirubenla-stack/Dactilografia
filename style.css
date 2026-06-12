@@ -480,6 +480,19 @@ body {
         display: flex;
         flex-direction: column;
     }
+    
+    /* Evitar que el encabezado fuerce la pantalla a verse gigante */
+    .top-row {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px !important;
+    }
+    .top-row img {
+        height: 80px !important;
+    }
+    .title-box h1 {
+        font-size: 1.8rem !important;
+    }
     .main-columns {
         flex-direction: column;
     }
@@ -491,17 +504,23 @@ body {
         margin-bottom: 10px;
     }
     
+    .bottom-area-container {
+        flex-direction: column !important;
+    }
+    .keyboard-hands-container {
+        width: 100% !important;
+        overflow-x: hidden !important;
+        padding-bottom: 20px;
+    }
     /* Adaptar Teclado Virtual */
     .keyboard-container {
         width: 100%;
         overflow-x: auto;
-        padding-bottom: 5px;
-        margin-top: auto; /* Empuja el teclado hacia abajo */
     }
-    #keyboard {
+    #virtual-keyboard {
         transform: scale(0.65);
-        transform-origin: bottom center;
-        margin-bottom: -50px;
+        transform-origin: top center;
+        margin-bottom: -60px;
     }
     
     /* Área de texto en la parte superior */
