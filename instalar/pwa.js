@@ -2,8 +2,9 @@
 const installButton = document.createElement('button');
 installButton.id = 'pwa-install-button';
 installButton.innerHTML = '<i class="fa-solid fa-download" style="margin-right: 8px;"></i> Instalar App';
+
 const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-const scale = isTouch ? 3 : 1; // Hacerlo 3 veces más grande en móviles para compensar el zoom
+const scale = isTouch ? 1.4 : 1; // Un poco más grande en táctiles para notarse bien
 
 Object.assign(installButton.style, {
   position: 'fixed',
