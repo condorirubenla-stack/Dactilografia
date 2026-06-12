@@ -16,7 +16,7 @@
     <meta name="theme-color" content="#a87b00">
     <link rel="apple-touch-icon" href="instalar/icon-192.png">
     
-    <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="style.css?v=19">
     
     <!-- PWA y Botón de Instalar (Carpeta instalar) -->
     <script src="instalar/pwa.js?v=2" defer></script>
@@ -156,8 +156,37 @@
                     <div class="checkbox-panel" style="background: #e2cfa7; padding: 5px; border: 2px solid white; border-bottom-color: #666; border-right-color: #666; font-size: 0.8rem; font-weight: bold; width: 220px;">
                         <div><input type="checkbox" id="chk-hide-key"> <label for="chk-hide-key">Ocultar Tecla a Pulsar</label></div>
                         <div><input type="checkbox" id="chk-hide-kb"> <label for="chk-hide-kb">Ocultar Teclado</label></div>
+                        <div><input type="checkbox" id="chk-hide-fingers"> <label for="chk-hide-fingers">Ocultar Dedos utilizados</label></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Stats Panel -->
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+                <div class="stat-box">
+                    <div class="stat-title">Pulsaciones Totales</div>
+                    <div class="stat-value" id="stat-pulsaciones">0</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <div class="stat-box" style="flex:1;">
+                        <div class="stat-title">PPM:</div>
+                        <div class="stat-value" id="wpm">0</div>
+                    </div>
+                    <div class="stat-box" style="flex:1;">
+                        <div class="stat-title">A Conseguir</div>
+                        <div class="stat-value">25</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">Errores</div>
+                    <div class="stat-value" id="stat-errores">0 (0%)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">Tiempo</div>
+                    <div class="stat-value" id="stat-tiempo">00:00</div>
+                </div>
+            </div>
         </div>
-    </div>
 
     <!-- VIEW 3: Gestión de Usuarios -->
     <div id="view-users" class="view">
