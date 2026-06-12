@@ -719,8 +719,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (targetScroll < 0) targetScroll = 0;
                 container.scrollTo({ top: targetScroll, behavior: 'smooth' });
 
-                // Centrado horizontal automático (instantáneo para que no haya una animación fea que maree)
-                characters[currentIndex].scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
+                // Centrado automático (instantáneo para que no haya una animación fea que maree)
+                characters[currentIndex].scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'nearest' });
                 updateKeyboardHighlight();
             } else {
                 finishLesson();
