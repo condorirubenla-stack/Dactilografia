@@ -462,9 +462,23 @@ body {
 
 /* RESPONSIVIDAD PARA MÓVILES */
 @media (max-width: 768px) {
-    #app-wrapper {
-        height: auto !important;
+    body {
+        align-items: flex-start !important; /* Quitar el centrado vertical */
+        height: auto;
         min-height: 100vh;
+        overflow-x: hidden;
+    }
+    #app-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
     }
     .main-columns {
         flex-direction: column;
@@ -481,29 +495,38 @@ body {
     .keyboard-container {
         width: 100%;
         overflow-x: auto;
-        padding-bottom: 10px;
+        padding-bottom: 5px;
+        margin-top: auto; /* Empuja el teclado hacia abajo */
     }
     #keyboard {
         transform: scale(0.65);
-        transform-origin: top center;
-        margin-bottom: -80px; /* Compensa la reducción de altura */
+        transform-origin: bottom center;
+        margin-bottom: -50px;
     }
     
     /* Área de texto en la parte superior */
     .view.active {
         display: flex !important;
         flex-direction: column;
+        flex-grow: 1;
+        height: 100%;
     }
     .typing-container {
         flex-grow: 1;
         padding: 5px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
     }
     #text-display {
         font-size: 1.5rem; /* Letras legibles */
+        flex-grow: 1;
+        overflow-y: auto;
     }
     
     /* Juegos */
     #game-area {
-        height: 50vh;
+        flex-grow: 1;
+        height: auto;
     }
 }

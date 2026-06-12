@@ -14,24 +14,14 @@
     <meta property="og:type" content="website">
 
     <!-- PWA: Para que sea instalable -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="instalar/manifest.json">
     <meta name="theme-color" content="#a87b00">
-    <link rel="apple-touch-icon" href="logo1.png">
+    <link rel="apple-touch-icon" href="instalar/icon-192.png">
     
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=7">
     
-    <!-- Registrar el Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(reg => {
-                    console.log('ServiceWorker registrado:', reg.scope);
-                }).catch(err => {
-                    console.log('Error registrando ServiceWorker:', err);
-                });
-            });
-        }
-    </script>
+    <!-- PWA y Botón de Instalar (Carpeta instalar) -->
+    <script src="instalar/pwa.js" defer></script>
 </head>
 <body>
     <div id="app-wrapper" style="width: 100%; max-width: 1200px; height: 100vh; max-height: 800px; position: relative; display: flex; flex-direction: column; margin: 0 auto;">
