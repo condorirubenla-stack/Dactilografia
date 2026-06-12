@@ -459,3 +459,51 @@ body {
     margin: 2px;
     border: 1px solid #888;
 }
+
+/* RESPONSIVIDAD PARA MÓVILES */
+@media (max-width: 768px) {
+    #app-wrapper {
+        height: auto !important;
+        min-height: 100vh;
+    }
+    .main-columns {
+        flex-direction: column;
+    }
+    .left-col, .right-col {
+        width: 100%;
+    }
+    .menu-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    /* Adaptar Teclado Virtual */
+    .keyboard-container {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    #keyboard {
+        transform: scale(0.65);
+        transform-origin: top center;
+        margin-bottom: -80px; /* Compensa la reducción de altura */
+    }
+    
+    /* Área de texto en la parte superior */
+    .view.active {
+        display: flex !important;
+        flex-direction: column;
+    }
+    .typing-container {
+        flex-grow: 1;
+        padding: 5px;
+    }
+    #text-display {
+        font-size: 1.5rem; /* Letras legibles */
+    }
+    
+    /* Juegos */
+    #game-area {
+        height: 50vh;
+    }
+}
