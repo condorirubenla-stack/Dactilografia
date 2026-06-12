@@ -695,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentIndex++;
             if (currentIndex < characters.length) {
                 characters[currentIndex].classList.add('current');
-                // Scroll manual del contenedor para evitar que la pantalla entera salte
+                // Centrado vertical manual del contenedor (para que no salte el Y)
                 const container = characters[currentIndex].parentElement.parentElement; // typing-container
                 const charTop = characters[currentIndex].offsetTop;
                 const charHeight = characters[currentIndex].offsetHeight;
@@ -703,8 +703,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 let targetScroll = charTop - (containerHeight / 2) + (charHeight / 2);
                 if (targetScroll < 0) targetScroll = 0;
-                
                 container.scrollTo({ top: targetScroll, behavior: 'smooth' });
+
+                // Centrado horizontal automático (hace un pan de la cámara si el usuario hizo zoom)
+                characters[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 updateKeyboardHighlight();
             } else {
                 finishLesson();
