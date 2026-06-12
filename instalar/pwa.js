@@ -2,25 +2,28 @@
 const installButton = document.createElement('button');
 installButton.id = 'pwa-install-button';
 installButton.innerHTML = '<i class="fa-solid fa-download" style="margin-right: 8px;"></i> Instalar App';
+const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+const scale = isTouch ? 3 : 1; // Hacerlo 3 veces más grande en móviles para compensar el zoom
+
 Object.assign(installButton.style, {
   position: 'fixed',
-  bottom: '30px',
-  right: '30px',
-  padding: '10px 20px',
+  bottom: (30 * scale) + 'px',
+  right: (30 * scale) + 'px',
+  padding: (10 * scale) + 'px ' + (20 * scale) + 'px',
   backgroundColor: '#2A8CFF',
   background: 'linear-gradient(135deg, #449CFF, #1E7BFF)',
   color: '#FFFFFF',
   border: 'none',
-  borderRadius: '30px',
+  borderRadius: (30 * scale) + 'px',
   fontFamily: "'Poppins', sans-serif",
   fontWeight: '600',
-  fontSize: '1rem',
+  fontSize: (1 * scale) + 'rem',
   cursor: 'pointer',
-  display: 'none', // Oculto por defecto
+  display: 'none',
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: '9999',
-  boxShadow: '0 8px 25px rgba(42, 140, 255, 0.4), inset 0 2px 5px rgba(255,255,255,0.3)',
+  boxShadow: `0 ${8 * scale}px ${25 * scale}px rgba(42, 140, 255, 0.4), inset 0 ${2 * scale}px ${5 * scale}px rgba(255,255,255,0.3)`,
   transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
   letterSpacing: '0.5px'
 });

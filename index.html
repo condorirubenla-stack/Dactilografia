@@ -2,11 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=1200, user-scalable=no">
     <title>Dactilografía - C.E.A. Prof. Nemesia Ortiz Camargo</title>
     
-    <!-- Etiquetas para compartir (WhatsApp, Facebook, etc.) -->
-    <meta name="description" content="Aprende mecanografía paso a paso con lecciones, juegos y exámenes. Diseñado para el CEA Herman Ortiz Camargo.">
     <meta property="og:title" content="Dactilografía">
     <meta property="og:description" content="Curso de Mecanografía C.E.A. Prof. Nemesia Ortiz Camargo">
     <meta property="og:url" content="https://dactilografia-sistemas.netlify.app/">
@@ -18,10 +16,10 @@
     <meta name="theme-color" content="#a87b00">
     <link rel="apple-touch-icon" href="instalar/icon-192.png">
     
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=11">
     
     <!-- PWA y Botón de Instalar (Carpeta instalar) -->
-    <script src="instalar/pwa.js" defer></script>
+    <script src="instalar/pwa.js?v=2" defer></script>
 </head>
 <body>
     <div id="app-wrapper" style="width: 100%; max-width: 1200px; height: 100vh; max-height: 800px; position: relative; display: flex; flex-direction: column; margin: 0 auto;">
@@ -109,7 +107,7 @@
         <div class="typing-container" style="background: white; padding: 15px; font-size: 1.6rem; height: 250px; overflow-y: auto; border-top: 3px solid #8b6508; border-left: 3px solid #8b6508; border-bottom: 3px solid #f5deb3; border-right: 3px solid #f5deb3; margin-bottom: 10px;">
             <div id="text-display" class="text-display"></div>
         </div>
-        <input type="text" id="hidden-input" autocomplete="off" spellcheck="false" style="position:absolute; top:0; left:0; opacity:0; pointer-events:none;">
+        <input type="text" id="hidden-input" autocomplete="off" spellcheck="false" style="position:absolute; top:0; left:0; opacity:0; pointer-events:none; font-size: 16px;">
         
         <div id="status-message" style="text-align:center; height:30px; line-height:30px; font-size:24px; font-weight:bold; font-family:Arial; margin-bottom:10px;"></div>
 
