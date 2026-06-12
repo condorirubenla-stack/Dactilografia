@@ -6,10 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const baseH = 800;
         const scaleX = window.innerWidth / baseW;
         const scaleY = window.innerHeight / baseH;
-        const scale = Math.min(scaleX, scaleY) * 0.95; // 95% of screen
+        const scale = Math.min(scaleX, scaleY) * 0.98; // 98% of screen
         
         wrapper.style.transform = `scale(${scale})`;
-        wrapper.style.transformOrigin = 'center center';
+        wrapper.style.transformOrigin = 'top center';
+        
+        // Center it vertically if there is extra space
+        const scaledHeight = baseH * scale;
+        if (window.innerHeight > scaledHeight) {
+            wrapper.style.marginTop = `${(window.innerHeight - scaledHeight) / 2}px`;
+        } else {
+            wrapper.style.marginTop = '0px';
+        }
     }
     window.addEventListener('resize', resizeApp);
     resizeApp();
@@ -52,6 +60,80 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAddUser = document.getElementById('btn-add-user');
     const btnSelectUser = document.getElementById('btn-select-user');
     const btnDeleteUser = document.getElementById('btn-delete-user');
+
+    // New feature elements
+    const btnToggleSound = document.getElementById('btn-toggle-sound');
+    const btnToggleDark = document.getElementById('btn-toggle-dark');
+    
+    let isSoundEnabled = true;
+    let isDarkMode = false;
+    
+    if (btnToggleSound) {
+        btnToggleSound.addEventListener('click', () => {
+            isSoundEnabled = !isSoundEnabled;
+            btnToggleSound.innerText = isSoundEnabled ? '🔊 Sonido: ON' : '🔇 Sonido: OFF';
+            btnToggleSound.style.background = isSoundEnabled ? '#4ade80' : '#f87171';
+        });
+    }
+    
+    if (btnToggleDark) {
+        btnToggleDark.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.body.classList.add('dark-theme');
+                btnToggleDark.innerText = '☀️ Modo Día';
+                btnToggleDark.style.background = '#facc15';
+                btnToggleDark.style.color = 'black';
+            } else {
+                document.body.classList.remove('dark-theme');
+                btnToggleDark.innerText = '🌙 Modo Noche';
+                btnToggleDark.style.background = '#334155';
+                btnToggleDark.style.color = 'white';
+            }
+        });
+    }
+
+    // Audio System
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playSound(type) {
+        if (!isSoundEnabled || !audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        const now = audioCtx.currentTime;
+        
+        if (type === 'clack') {
+            // Short click/clack for normal typing
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(400, now);
+            osc.frequency.exponentialRampToValueAtTime(100, now + 0.05);
+            gainNode.gain.setValueAtTime(0.3, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+            osc.start(now);
+            osc.stop(now + 0.05);
+        } else if (type === 'error') {
+            // Low buzz for error
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, now);
+            gainNode.gain.setValueAtTime(0.4, now);
+            gainNode.gain.linearRampToValueAtTime(0.01, now + 0.2);
+            osc.start(now);
+            osc.stop(now + 0.2);
+        } else if (type === 'ding') {
+            // Bell ding for finish
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, now); // A5
+            gainNode.gain.setValueAtTime(0.5, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 1.0);
+            osc.start(now);
+            osc.stop(now + 1.0);
+        }
+    }
 
     // Build Keyboard
     const layout = [
@@ -371,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAddUser.addEventListener('click', () => {
         const name = newUserNameInput.value.trim();
         if (name) {
-            users.push({ name: name, history: [] });
+            users.push({ name: name, history: [], medals: { gold: 0, silver: 0, bronze: 0 } });
             currentUserIndex = users.length - 1;
             saveUsers();
             renderUserList();
@@ -416,7 +498,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const userNameDisplay = document.getElementById('user-name');
             if (userNameDisplay) {
-                userNameDisplay.textContent = user.name;
+                // Determine medals to display
+                let medalsHtml = '';
+                if (user.medals) {
+                    if (user.medals.gold > 0) medalsHtml += ` <span title="Oro">${user.medals.gold}🥇</span>`;
+                    if (user.medals.silver > 0) medalsHtml += ` <span title="Plata">${user.medals.silver}🥈</span>`;
+                    if (user.medals.bronze > 0) medalsHtml += ` <span title="Bronce">${user.medals.bronze}🥉</span>`;
+                }
+                
+                userNameDisplay.innerHTML = `${user.name}${medalsHtml}`;
                 let avg = 0;
                 if (user.history.length > 0) {
                     const sum = user.history.reduce((a, b) => a + b, 0);
@@ -629,6 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Backspace' && currentIndex > 0 && !isFinished) {
             characters[currentIndex].classList.remove('current');
             currentIndex--;
+            
             const prevChar = characters[currentIndex];
             prevChar.classList.remove('correct', 'error');
             prevChar.classList.add('current');
@@ -677,6 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (inputChar === expectedChar) {
                 characters[currentIndex].classList.add('correct');
+                playSound('clack');
                 if(statusMessage) {
                     statusMessage.innerText = "¡MUY BIEN!";
                     statusMessage.style.color = "green";
@@ -684,6 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 errors++;
                 characters[currentIndex].classList.add('error');
+                playSound('error');
                 // OVERWRITE with what they actually typed so they see it
                 characters[currentIndex].innerText = inputChar === '\n' ? '↵\n' : inputChar;
                 if(statusMessage) {
@@ -693,9 +786,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             currentIndex++;
+
             if (currentIndex < characters.length) {
                 characters[currentIndex].classList.add('current');
-                characters[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Centrado vertical manual del contenedor (avance hasta la mitad)
+                const container = characters[currentIndex].parentElement.parentElement; // typing-container
+                const charTop = characters[currentIndex].offsetTop;
+                const charHeight = characters[currentIndex].offsetHeight;
+                const containerHeight = container.clientHeight;
+                
+                let targetScroll = charTop - (containerHeight / 2) + (charHeight / 2);
+                if (targetScroll < 0) targetScroll = 0;
+                container.scrollTo({ top: targetScroll, behavior: 'smooth' });
+                
                 updateKeyboardHighlight();
             } else {
                 finishLesson();
@@ -712,14 +816,35 @@ document.addEventListener('DOMContentLoaded', () => {
         hiddenInput.blur();
         updateStats();
         
+        playSound('ding');
+        
         const finalWpm = parseInt(wpmDisplay.innerText) || 0;
+        let earnedMedal = '';
+        
         if (currentUserIndex !== null && users[currentUserIndex]) {
-            users[currentUserIndex].history.push(finalWpm);
+            const user = users[currentUserIndex];
+            user.history.push(finalWpm);
+            
+            if (!user.medals) user.medals = { gold: 0, silver: 0, bronze: 0 };
+            
+            if (errors === 0 && finalWpm >= 30) {
+                user.medals.gold++;
+                earnedMedal = '🥇 ¡MEDALLA DE ORO!';
+            } else if (errors === 0 && finalWpm >= 20) {
+                user.medals.silver++;
+                earnedMedal = '🥈 ¡MEDALLA DE PLATA!';
+            } else if (errors === 0) {
+                user.medals.bronze++;
+                earnedMedal = '🥉 ¡MEDALLA DE BRONCE!';
+            }
+            
             saveUsers();
         }
 
         setTimeout(() => {
-            alert(`¡Lección Completada!\nPulsaciones: ${pulsaciones}\nErrores: ${errors}\nVelocidad: ${finalWpm} PPM`);
+            let msg = `¡Lección Completada!\nPulsaciones: ${pulsaciones}\nErrores: ${errors}\nVelocidad: ${finalWpm} PPM`;
+            if (earnedMedal) msg += `\n\n¡Felicidades! Has ganado:\n${earnedMedal}`;
+            alert(msg);
             showView(viewMenu);
         }, 100);
     }
@@ -728,7 +853,4 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isPaused) hiddenInput.focus();
     });
     
-    if (lessonSelect) {
-        lessonSelect.addEventListener('change', (e) => initLesson(parseInt(e.target.value)));
-    }
 });

@@ -2,39 +2,25 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MecaWeb - Curso de Mecanografía</title>
+    <meta name="viewport" content="width=1200">
+    <title>Dactilografía - C.E.A. Prof. Nemesia Ortiz Camargo</title>
     
-    <!-- Etiquetas para compartir (WhatsApp, Facebook, etc.) -->
-    <meta name="description" content="Aprende mecanografía paso a paso con lecciones, juegos y exámenes. Diseñado para el CEA Herman Ortiz Camargo.">
-    <meta property="og:title" content="MecaWeb - Curso de Mecanografía">
-    <meta property="og:description" content="Aprende mecanografía paso a paso de lo básico a experto.">
-    <meta property="og:url" content="https://dactilografia-sistemas.netlify.app">
+    <meta property="og:title" content="Dactilografía">
+    <meta property="og:description" content="Curso de Mecanografía C.E.A. Prof. Nemesia Ortiz Camargo">
+    <meta property="og:url" content="https://dactilografia-sistemas.netlify.app/">
     <meta property="og:image" content="https://dactilografia-sistemas.netlify.app/logo1.png">
     <meta property="og:type" content="website">
 
     <!-- PWA: Para que sea instalable -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="instalar/manifest.json">
     <meta name="theme-color" content="#a87b00">
-    <link rel="apple-touch-icon" href="logo1.png">
+    <link rel="apple-touch-icon" href="instalar/icon-192.png">
     
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Registrar el Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(reg => {
-                    console.log('ServiceWorker registrado:', reg.scope);
-                }).catch(err => {
-                    console.log('Error registrando ServiceWorker:', err);
-                });
-            });
-        }
-    </script>
+    <link rel="stylesheet" href="style.css?v=32">
+    <script src="instalar/pwa.js?v=4" defer></script>
 </head>
 <body>
-    <div id="app-wrapper" style="width: 1200px; height: 800px; position: relative; display: flex; flex-direction: column;">
+    <div id="app-wrapper" style="width: 1200px; height: 800px; position: relative; margin: 0 auto; transform-origin: top center;">
     <!-- VIEW 1: Main Menu -->
     <div id="view-menu" class="view active">
           <div class="top-row" style="display:flex; justify-content:space-between; align-items:center; padding: 0 20px;">
@@ -44,7 +30,11 @@
                   <h1 class="embossed-text">Curso de<br>Mecanograf&iacute;a</h1>
               </div>
               
-              <div style="display:flex; align-items:center; gap:30px;">
+              <div style="display:flex; align-items:center; gap:15px;">
+                  <div style="display:flex; flex-direction:column; gap:10px;">
+                      <button id="btn-toggle-sound" style="background:#4ade80; color:black; border:2px solid #555; padding:5px 10px; font-weight:bold; cursor:pointer; font-family:Arial; border-radius:5px;">🔊 Sonido: ON</button>
+                      <button id="btn-toggle-dark" style="background:#334155; color:white; border:2px solid #555; padding:5px 10px; font-weight:bold; cursor:pointer; font-family:Arial; border-radius:5px;">🌙 Modo Noche</button>
+                  </div>
                   <img src="logo2.png" alt="Logo 2" style="height: 150px; object-fit: contain; filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.5));">
               </div>
           </div>
@@ -112,22 +102,26 @@
                 <span id="typing-nivel">NIVEL: 0</span>
                 <span id="typing-bloque">BLOQUE: 0</span>
             </div>
-            <button id="btn-close-typing" style="background: white; border: 2px solid red; color: red; font-weight:bold; cursor:pointer;">X</button>
+            <div style="display:flex; gap: 10px;">
+                <button id="btn-pause" style="background: white; border: 2px solid #555; font-weight:bold; cursor:pointer;">Pausa</button>
+                <button id="btn-restart-lesson" style="background: #2196F3; border: 2px solid white; color: white; font-weight:bold; cursor:pointer;">Reiniciar</button>
+                <button id="btn-close-typing" style="background: white; border: 2px solid red; color: red; font-weight:bold; cursor:pointer;">X</button>
+            </div>
         </div>
 
         <!-- Text Display -->
         <div class="typing-container" style="background: white; padding: 15px; font-size: 1.6rem; height: 250px; overflow-y: auto; border-top: 3px solid #8b6508; border-left: 3px solid #8b6508; border-bottom: 3px solid #f5deb3; border-right: 3px solid #f5deb3; margin-bottom: 10px;">
             <div id="text-display" class="text-display"></div>
         </div>
-        <input type="text" id="hidden-input" autocomplete="off" spellcheck="false" style="position:absolute; top:0; left:0; opacity:0; pointer-events:none;">
+        <input type="text" id="hidden-input" autocomplete="off" spellcheck="false" style="position:absolute; top:0; left:0; opacity:0; pointer-events:none; font-size: 16px;">
         
         <div id="status-message" style="text-align:center; height:30px; line-height:30px; font-size:24px; font-weight:bold; font-family:Arial; margin-bottom:10px;"></div>
 
         <!-- Bottom Area: Keyboard + Stats -->
-        <div style="display: flex; gap: 10px; background-color: #a87b00; padding: 10px; border: 3px solid #fff9e6; border-bottom-color: #8b6508; border-right-color: #8b6508;">
+        <div class="bottom-area-container" style="display: flex; gap: 10px; background-color: #a87b00; padding: 10px; border: 3px solid #fff9e6; border-bottom-color: #8b6508; border-right-color: #8b6508;">
             
             <!-- Left Side: Keyboard & Hands -->
-            <div style="flex: 2; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <div class="keyboard-hands-container" style="flex: 2; display: flex; flex-direction: column; align-items: center; gap: 10px;">
                 <div id="virtual-keyboard" class="keyboard-box">
                     <!-- Keyboard generated by JS to keep it clean -->
                 </div>
@@ -170,11 +164,6 @@
                         <div><input type="checkbox" id="chk-hide-kb"> <label for="chk-hide-kb">Ocultar Teclado</label></div>
                         <div><input type="checkbox" id="chk-hide-fingers"> <label for="chk-hide-fingers">Ocultar Dedos utilizados</label></div>
                     </div>
-
-                    <div style="display:flex; gap: 10px; margin-left: 10px;">
-                        <button id="btn-pause" title="Pausar Ejercicio" style="width:30px; height:30px; background:white; border:2px solid #8b6508; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;">⏸</button>
-                        <button id="btn-restart-lesson" title="Reiniciar Ejercicio" style="width:30px; height:30px; background:#2196F3; border:2px solid #fff; cursor:pointer; color:white; font-weight:bold; display:flex; align-items:center; justify-content:center;">🔄</button>
-                    </div>
                 </div>
             </div>
 
@@ -184,9 +173,9 @@
                     <div class="stat-title">Pulsaciones Totales</div>
                     <div class="stat-value" id="stat-pulsaciones">0</div>
                 </div>
-                <div style="display:flex; gap: 10px;">
+                <div style="display:flex; gap:10px;">
                     <div class="stat-box" style="flex:1;">
-                        <div class="stat-title">P.P.M.</div>
+                        <div class="stat-title">PPM:</div>
                         <div class="stat-value" id="wpm">0</div>
                     </div>
                     <div class="stat-box" style="flex:1;">
@@ -200,15 +189,11 @@
                 </div>
                 <div class="stat-box">
                     <div class="stat-title">Tiempo</div>
-                    <div class="stat-value" id="stat-tiempo" style="color: green; background: white;">TIEMPO INACTIVO</div>
-                </div>
-                <div class="progress-bar inset-panel" style="height: 15px; margin-top: auto; display:none;">
-                    <div id="progress-fill" class="progress-fill"></div>
+                    <div class="stat-value" id="stat-tiempo">00:00</div>
                 </div>
             </div>
-            
         </div>
-    </div>
+    </div> <!-- Close view-typing -->
 
     <!-- VIEW 3: Gestión de Usuarios -->
     <div id="view-users" class="view">
@@ -234,8 +219,8 @@
     </div>
 
     <!-- VIEW 4: Visor de Lecciones -->
-    <div id="view-viewer" class="view">
-        <div style="background:#e2cfa7; border:3px solid white; border-bottom-color:#666; border-right-color:#666; width:100%; height:100%; padding:20px; box-sizing:border-box;">
+    <div id="view-viewer" class="view" style="flex-direction: column;">
+        <div style="background:#e2cfa7; border:3px solid white; border-bottom-color:#666; border-right-color:#666; width:100%; flex:1; padding:20px; box-sizing:border-box;">
             <div style="background:white; height: 30px; display:flex; align-items:center; padding-left:10px; font-weight:bold; font-family:Arial; border: 1px solid #000; border-bottom:none;">
                 Visor de Lecciones
             </div>
@@ -273,7 +258,7 @@
 
     <!-- VIEW 5: Exámenes -->
     <div id="view-exams" class="view" style="justify-content:center; align-items:center; background:rgba(0,0,0,0.5);">
-        <div style="background:#e2cfa7; border:3px solid white; border-bottom-color:#666; border-right-color:#666; width:700px; max-width:95%; padding:5px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5);">
+        <div style="background:#e2cfa7; border:3px solid white; border-bottom-color:#666; border-right-color:#666; width:700px; max-width:95%; padding:5px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column;">
             <div style="background:white; height: 30px; display:flex; align-items:center; padding-left:10px; font-weight:bold; font-family:Arial; border: 1px solid #000; border-bottom:none; justify-content:space-between;">
                 <span>Exámenes</span>
                 <button class="btn-back-menu" style="background:red; color:white; border:1px solid black; cursor:pointer;">X</button>
@@ -291,7 +276,7 @@
 
     <!-- VIEW 6: Juegos -->
     <div id="view-games" class="view" style="justify-content:center; align-items:center; background:rgba(0,0,0,0.5);">
-        <div style="background:#e2cfa7; border:3px solid white; border-bottom-color:#666; border-right-color:#666; width:600px; max-width:95%; padding:5px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5);">
+        <div style="background:#e2cfa7; border:3px solid white; border-bottom-color:#666; border-right-color:#666; width:600px; max-width:95%; padding:5px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;">
             <div style="background:white; height: 30px; display:flex; align-items:center; padding-left:10px; font-weight:bold; font-family:Arial; border: 1px solid #000; border-bottom:none; justify-content:space-between;">
                 <span>Juegos de Mecanografía</span>
                 <button class="btn-back-menu" style="background:red; color:white; border:1px solid black; cursor:pointer;">X</button>
@@ -328,10 +313,52 @@
             <button id="btn-start-game" class="inset-panel" style="padding:10px 20px; font-size:18px; font-weight:bold;">Comenzar</button>
         </div>
     </div>
+    </div> <!-- End of app-wrapper -->
+    
+    <!-- Botón flotante para instalar PWA (Fuera del app-wrapper para no ser afectado por la escala) -->
+    <style>
+        .install-btn-pwa {
+            display: block; 
+            position: fixed;
+            background-color: #2b80ff;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 9999;
+            font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
+        }
+        /* Pantallas grandes (Computadora) */
+        @media (min-width: 801px) {
+            .install-btn-pwa {
+                bottom: 25px;
+                right: 15px;
+                border-radius: 15px;
+                padding: 15px 25px;
+                font-size: 18px;
+            }
+        }
+        /* Pantallas pequeñas (Teléfonos) */
+        @media (max-width: 800px) {
+            .install-btn-pwa {
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 400px;
+                border-radius: 30px;
+                padding: 18px;
+                font-size: 22px;
+                text-align: center;
+            }
+        }
+    </style>
+    <button id="btn-install-pwa" class="install-btn-pwa"><i class="fa-solid fa-download"></i> Instalar App</button>
 
-    </div>
     <script src="textos.js"></script>
     <script src="games.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=33"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mecaweb-v1';
+const CACHE_NAME = 'mecaweb-v6';
 const urlsToCache = [
   './',
   './index.html',
@@ -7,7 +7,10 @@ const urlsToCache = [
   './textos.js',
   './games.js',
   './logo1.png',
-  './logo2.png'
+  './logo2.png',
+  './instalar/pwa.js',
+  './instalar/icon-192.png',
+  './instalar/icon-512.png'
 ];
 
 self.addEventListener('install', event => {
@@ -23,11 +26,21 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Devuelve la versión en caché si existe, si no, hace la petición a la red
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
+        return response || fetch(event.request);
       })
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
   );
 });

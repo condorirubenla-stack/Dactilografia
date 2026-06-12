@@ -218,9 +218,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const hiddenInput = document.getElementById('hidden-input');
+    
+    // Al tocar el área de juego en móvil, enfocar el input para sacar el teclado
+    gameArea.addEventListener('click', () => {
+        if (isGameRunning) hiddenInput.focus();
+    });
+
+    // Simular keydown a partir del input del móvil
+    hiddenInput.addEventListener('input', (e) => {
+        if (!isGameRunning) return;
+        const char = e.data;
+        if (char) {
+            const keydownEvent = new KeyboardEvent('keydown', { key: char });
+            document.dispatchEvent(keydownEvent);
+        }
+        hiddenInput.value = '';
+    });
+
     // Keydown listener for the document, but only handle if game is running
     document.addEventListener('keydown', (e) => {
         if (!isGameRunning) return;
+        if (isGameRunning) hiddenInput.focus();
         
         // Prevent default actions for typing
         if (e.key.length === 1 && !e.ctrlKey && !e.altKey) {

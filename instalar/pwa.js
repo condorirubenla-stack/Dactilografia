@@ -1,44 +1,16 @@
 // Configuración del botón de instalación
-const installButton = document.createElement('button');
-installButton.id = 'pwa-install-button';
-installButton.innerHTML = '<i class="fa-solid fa-download" style="margin-right: 8px;"></i> Instalar App';
-
-const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-const scale = isTouch ? 1.4 : 1; // Un poco más grande en táctiles para notarse bien
-
-Object.assign(installButton.style, {
-  position: 'fixed',
-  bottom: (30 * scale) + 'px',
-  right: (30 * scale) + 'px',
-  padding: (10 * scale) + 'px ' + (20 * scale) + 'px',
-  backgroundColor: '#2A8CFF',
-  background: 'linear-gradient(135deg, #449CFF, #1E7BFF)',
-  color: '#FFFFFF',
-  border: 'none',
-  borderRadius: (30 * scale) + 'px',
-  fontFamily: "'Poppins', sans-serif",
-  fontWeight: '600',
-  fontSize: (1 * scale) + 'rem',
-  cursor: 'pointer',
-  display: 'none',
-  alignItems: 'center',
-  justifyContent: 'center',
-  zIndex: '9999',
-  boxShadow: `0 ${8 * scale}px ${25 * scale}px rgba(42, 140, 255, 0.4), inset 0 ${2 * scale}px ${5 * scale}px rgba(255,255,255,0.3)`,
-  transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
-  letterSpacing: '0.5px'
-});
-document.body.appendChild(installButton);
+const installButton = document.getElementById('btn-install-pwa');
 
 // Efecto hover (añadido vía JS)
-installButton.addEventListener('mouseenter', () => {
-    installButton.style.transform = 'translateY(-5px)';
-    installButton.style.boxShadow = '0 12px 30px rgba(42, 140, 255, 0.6), inset 0 2px 5px rgba(255,255,255,0.4)';
-});
-installButton.addEventListener('mouseleave', () => {
-    installButton.style.transform = 'translateY(0)';
-    installButton.style.boxShadow = '0 8px 25px rgba(42, 140, 255, 0.4), inset 0 2px 5px rgba(255,255,255,0.3)';
-});
+if (installButton) {
+    installButton.addEventListener('mouseenter', () => {
+        installButton.style.transform = 'translateY(-5px) scale(1.05)';
+    });
+    installButton.addEventListener('mouseleave', () => {
+        installButton.style.transform = 'translateY(0) scale(1)';
+    });
+}
+
 
 // Manejo del evento de instalación
 let deferredPrompt;
