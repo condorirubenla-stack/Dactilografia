@@ -20,14 +20,14 @@
 
 body.dark-theme {
     --bg-parchment: #1e293b; /* Plomo oscuro */
-    --border-light: #38bdf8; /* Azul celeste */
+    --border-light: #475569; /* Plomo azulado medio */
     --border-dark: #0f172a; /* Azul marino */
-    --text-color: #f8fafc;
+    --text-color: #e2e8f0;
     --btn-bg: #334155; /* Botones azul plomo */
     --red-text: #f8fafc;
     --main-box-bg: #0f172a; /* Cuadro principal azul marino */
-    --main-box-border-l: #38bdf8;
-    --main-box-border-d: #0284c7;
+    --main-box-border-l: #475569; /* Plomo azulado medio */
+    --main-box-border-d: #0f172a; /* Azul marino */
     --chart-bg: #1e293b;
     --stat-box-bg: #1e3a8a;
     --menu-header-bg: #1e3a8a;
