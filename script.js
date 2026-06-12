@@ -695,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentIndex++;
             if (currentIndex < characters.length) {
                 characters[currentIndex].classList.add('current');
-                characters[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                characters[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
                 updateKeyboardHighlight();
             } else {
                 finishLesson();
