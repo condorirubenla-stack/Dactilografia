@@ -43,12 +43,13 @@ body {
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    height: 100vh;
     width: 100vw;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    overflow: hidden;
 }
 
 .view {
@@ -300,24 +301,20 @@ body {
 
 .char {
     white-space: pre-wrap;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-weight: normal !important;
-    letter-spacing: 0 !important;
 }
 
 .char.correct {
-    color: #4CAF50 !important;
+    color: #000000;
 }
 
 .char.error {
-    color: white !important;
-    background-color: red !important;
+    color: white;
+    background-color: red;
 }
 
 .char.current {
-    background-color: black !important;
-    color: white !important;
+    background-color: black;
+    color: white;
 }
 
 .progress-bar {
@@ -462,4 +459,3 @@ body {
     margin: 2px;
     border: 1px solid #888;
 }
-
